@@ -9,36 +9,29 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
 
-public class MyAlgo1 implements ElevatorAlgo {
+public class MyAlgo implements ElevatorAlgo {
 
     private Building MyBuilding;
     private ArrayList<Elevator> MyElevators;
     private ArrayList<CallForElevator>[] callsPerElevator;
     private ArrayList<Integer> allCalls;
-//    private Queue<CallForElevator> UPCalls;
-//    private Queue<CallForElevator> DOWNCalls;
     private Elevator[] ElevatorsSpeedSort;
     private ArrayList<Integer> freeElevator;
 
 
-
-
     //Constructor
-    public MyAlgo1(Building B){
+    public MyAlgo(Building B) {
         this.MyBuilding = B;
         MyElevators = new ArrayList<Elevator>();
         callsPerElevator = new ArrayList[MyBuilding.numberOfElevetors()];
         allCalls = new ArrayList<Integer>();
         freeElevator = new ArrayList<Integer>();
-//        UPCalls = new LinkedList<CallForElevator>();
-//        DOWNCalls = new LinkedList<CallForElevator>();
         ElevatorsSpeedSort = new Elevator[MyBuilding.numberOfElevetors()];
         for (int i = 0; i < MyBuilding.numberOfElevetors(); i++) {
             MyElevators.add(MyBuilding.getElevetor(i));
             ElevatorsSpeedSort[i] = MyBuilding.getElevetor(i);
             callsPerElevator[i] = new ArrayList<CallForElevator>();
         }
-        ElevatorsSpeedSort();
     }
 
     @Override
@@ -69,13 +62,13 @@ public class MyAlgo1 implements ElevatorAlgo {
             }
         }
 
-        if(freeElevator.isEmpty()){
+        if (freeElevator.isEmpty()) {
             //case 1
             //check if the gap between the src and the dest is big-take the most fast elevator.
             int howManyFloors = Math.abs(c.getDest() - c.getSrc());
             int howManyFloorsInTheBuilding = MyBuilding.maxFloor() - MyBuilding.minFloor();
             double checkGap = (howManyFloors / howManyFloorsInTheBuilding);
-            if(checkGap > 0.5){
+            if (checkGap > 0.5) {
                 callsPerElevator[theMostFastElevator()].add(c);
                 return theMostFastElevator();
             }
@@ -89,17 +82,17 @@ public class MyAlgo1 implements ElevatorAlgo {
 
             //case 2
             //check if there are the same calls in current time in other elevator that can take this call
-            if(sameCallsAtThisMoment() != -1){
+            if (sameCallsAtThisMoment() != -1) {
                 callsPerElevator[sameCallsAtThisMoment()].add(c);
                 return sameCallsAtThisMoment();
-            }else {
+            } else {
                 //case 3
                 //if there is no similar calls we will check the elevator with the less calls to take this one
-                if(sameCallsAtThisMoment() == -1){
+                if (sameCallsAtThisMoment() == -1) {
                     int less = fewestCalls(c);
                     callsPerElevator[less].add(c);
                     return less;
-                }else{
+                } else {
                     //case 4
                     //if there are no similar calls, and all the elevators have the same amount of calls, so this is the last option just go to the closest elevator.
                     int close = checkTheClosestElevator(c);
@@ -107,15 +100,14 @@ public class MyAlgo1 implements ElevatorAlgo {
                     return MyElevators.get(close).getID();
                 }
             }
-        }else {//if the freeElevator is not empty
+        } else {//if the freeElevator is not empty
             callsPerElevator[freeElevator.get(0)].add(c);
             return freeElevator.get(0);
 
         }
-}
+    }
 
 
-    //**************************************************************************//
     @Override
     public void cmdElevator(int elev) {
         //        "no calls";
@@ -168,12 +160,7 @@ public class MyAlgo1 implements ElevatorAlgo {
                 return;
             }
         }
-
-    }
-
-
-    //**************************************************************************//
-
+}
 
     //This function is searching the closest elevator that is available to take the call
     private int checkTheClosestElevator(CallForElevator c){
@@ -188,32 +175,18 @@ public class MyAlgo1 implements ElevatorAlgo {
         return ans;
     }
 
-    ///*********************???***********************//
+    //This function return which elevator has the less calls to do.
     private int fewestCalls(CallForElevator c){
-        //double average = allCalls.size() / MyBuilding.numberOfElevators();
-        int ans = callsPerElevator[0].size();
-        for(int i = 1; i < callsPerElevator.length; i++){
-            if(callsPerElevator[i].size() > callsPerElevator[i+1].size()){
-                ans = callsPerElevator[i+1].size();
+        int all = allCalls.get(0);
+        int ans=0;
+        for (int i = 1; i < MyElevators.size(); i++) {
+            if (allCalls.get(i) < all) {
+                all = callsPerElevator[i].size();
+                ans=i;
             }
+            return ans;
         }
-        return ans;
-    }
-
-
-    //This function is sorting the array that representing the from the fastest elevator to the most slow elevator
-    private void ElevatorsSpeedSort() {
-        for (int i = 0; i < ElevatorsSpeedSort.length; i++) {
-            for (int j = 0; j < ElevatorsSpeedSort.length - 1 - i; j++)
-                if (ElevatorsSpeedSort[j].getSpeed() > ElevatorsSpeedSort[j + 1].getSpeed())
-                    swap(ElevatorsSpeedSort, j, j + 1);
-        }
-    }
-
-    private void swap(Elevator[] elevatorsSpeedSort, int j, int i) {
-        Elevator temp = elevatorsSpeedSort[i];
-        elevatorsSpeedSort[i] = elevatorsSpeedSort[j];
-        elevatorsSpeedSort[j] = temp;
+        return checkTheClosestElevator(c);
     }
 
     //This function returns the fastest elevator of all the elevators in the array
@@ -236,13 +209,13 @@ public class MyAlgo1 implements ElevatorAlgo {
         for (int i = 0; i < MyBuilding.numberOfElevetors(); i++) {
             if (callsPerElevator[i].get(0).getType() == CallForElevator.UP) { //check if my call is up
                 for (int j = 0; j < callsPerElevator[i].size(); j++) {
-                        if ((callsPerElevator[i].get(j).getType() == CallForElevator.UP) &&
-                                (callsPerElevator[i].get(0).getSrc() <= callsPerElevator[i].get(j).getSrc()) &&
-                                (callsPerElevator[i].get(j).getDest() <= callsPerElevator[i].get(0).getDest()) &&
-                                (average > callsPerElevator[i].size()))
-                            return i;
-                    }
+                    if ((callsPerElevator[i].get(j).getType() == CallForElevator.UP) &&
+                            (callsPerElevator[i].get(0).getSrc() <= callsPerElevator[i].get(j).getSrc()) &&
+                            (callsPerElevator[i].get(j).getDest() <= callsPerElevator[i].get(0).getDest()) &&
+                            (average > callsPerElevator[i].size()))
+                        return i;
                 }
+            }
             else if (callsPerElevator[i].get(0).getType() == CallForElevator.DOWN) { //check if my call is down
                 for (int j = 0; j < callsPerElevator[i].size(); j++) {
                     if (callsPerElevator[i].get(j).getType() == CallForElevator.DOWN) {
