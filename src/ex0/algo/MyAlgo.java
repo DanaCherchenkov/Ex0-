@@ -162,58 +162,6 @@ public class MyAlgo implements ElevatorAlgo {
         }
     }
 
-//    @Override
-//    public void cmdElevator(int elev) {
-//        //        "no calls";
-//        if (callsPerElevator[elev].size() == 0){
-//            return;
-//
-//        } else {
-//
-////          "done to src then go to dest";
-//            if(MyElevators.get(elev).getState()==0&&callsPerElevator[elev].get(0).getState()==2){
-//                MyElevators.get(elev).goTo(callsPerElevator[elev].get(0).getDest());
-//                return;
-//            }
-//
-////          "done the mission then remove from the callsPerElevator  the call";
-//            if(MyElevators.get(elev).getState()==0&&callsPerElevator[elev].get(0).getState()==3){
-//                callsPerElevator[elev].remove(0);
-//                cmdElevator(elev);
-//                return;
-//            }
-//
-//
-//            if(MyElevators.get(elev).getState()==0&&callsPerElevator[elev].get(0).getState()!=2){
-//                MyElevators.get(elev).goTo(callsPerElevator[elev].get(0).getSrc());
-//                for(int i=1;i<callsPerElevator[elev].size();i++){
-//
-//                    if(callsPerElevator[elev].get(i).getType()==callsPerElevator[elev].get(0).getType()&&callsPerElevator[elev].get(0).getType()==1){
-//                        if(MyElevators.get(elev).getPos() == callsPerElevator[elev].get(i).getSrc()&&callsPerElevator[elev].get(i).getDest()<callsPerElevator[elev].get(0).getDest()){
-//                            MyElevators.get(elev).stop(callsPerElevator[elev].get(i).getDest());
-//                            break;
-//                        }
-//                    }
-//
-//                    if(callsPerElevator[elev].get(i).getType()==callsPerElevator[elev].get(0).getType()&&callsPerElevator[elev].get(0).getType()==-1){
-//                        if(callsPerElevator[elev].get(i).getSrc()==callsPerElevator[elev].get(0).getSrc()&&callsPerElevator[elev].get(i).getDest()>callsPerElevator[elev].get(0).getDest()){
-//                            MyElevators.get(elev).stop(callsPerElevator[elev].get(i).getDest());
-//                            callsPerElevator[elev].remove(i);
-//                            break;
-//                        }
-//                        else if(callsPerElevator[elev].get(i).getDest()==callsPerElevator[elev].get(0).getDest()&&callsPerElevator[elev].get(i).getSrc()<callsPerElevator[elev].get(0).getSrc()){
-//                            MyElevators.get(elev).stop(callsPerElevator[elev].get(i).getSrc());
-//                            callsPerElevator[elev].remove(i);
-//                            break;
-//                        }
-//                    }
-//
-//                }
-//                return;
-//            }
-//        }
-//}
-
     //This function is searching the closest elevator that is available to take the call
     private int checkTheClosestElevator(CallForElevator c){
         int ans = 0;
