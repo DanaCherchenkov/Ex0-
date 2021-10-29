@@ -11,26 +11,30 @@ import ex0.simulator.Simulator_A;
 public class Ex0_main {
     public static Long ID0=208625293L, ID1 = 205890882L, ID2 = null;
     public static void main(String[] ar) {
-        String codeOwner = codeOwner();
-        Simulator_A.setCodeOwner(codeOwner);
-        int stage = 9;  // any case in [0,9].
-        System.out.println("Ex0 Simulator: isStarting, stage="+stage+") ... =  ");
-        String callFile = null; // use the predefined cases [0-9].
-        // String callFile = "data/Ex0_stage_2__.csv"; //
-        Simulator_A.initData(stage, callFile);  // init the simulator data: {building, calls}.
+        for(int stage=0;stage<10;stage++){
+            String codeOwner = codeOwner();
+            Simulator_A.setCodeOwner(codeOwner);
+           // int stage = 2;  // any case in [0,9].
+            System.out.println("Ex0 Simulator: isStarting, stage="+stage+") ... =  ");
+            String callFile = null; // use the predefined cases [0-9].
+            // String callFile = "data/Ex0_stage_2__.csv"; //
+            Simulator_A.initData(stage, callFile);  // init the simulator data: {building, calls}.
 
-      //   ElevatorAlgo ex0_alg = new ShabatElevAlgo(Simulator_A.getBuilding());  // The simplest algo ever (Shabat Elev).
-       //  ElevatorAlgo ex0_alg = new ShabatElev2Algo(Simulator_A.getBuilding()); // Shabat Elev with a minor twist
-        ElevatorAlgo ex0_alg = new MyAlgo(Simulator_A.getBuilding());    // Shabat Elev with two trick - replace with your code;
-        Simulator_A.initAlgo(ex0_alg); // init the algorithm to be used by the simulator
+            //   ElevatorAlgo ex0_alg = new ShabatElevAlgo(Simulator_A.getBuilding());  // The simplest algo ever (Shabat Elev).
+            //  ElevatorAlgo ex0_alg = new ShabatElev2Algo(Simulator_A.getBuilding()); // Shabat Elev with a minor twist
+            ElevatorAlgo ex0_alg = new MyAlgo(Simulator_A.getBuilding());    // Shabat Elev with two trick - replace with your code;
+            Simulator_A.initAlgo(ex0_alg); // init the algorithm to be used by the simulator
 
-        Simulator_A.runSim(); // run the simulation - should NOT take more than few seconds.
+            Simulator_A.runSim(); // run the simulation - should NOT take more than few seconds.
 
-        long time = System.currentTimeMillis();
-        String report_name = "out/Ex0_report_case_"+stage+"_"+time+"_ID_.log";
-        Simulator_A.report(report_name); // print the algorithm results in the given case, and save the log to a file.
-        //Simulator_A.report(); // if now file  - simple prints just the results.
-        Simulator_A.writeAllCalls("out/Ex0_Calls_case_"+stage+"_.csv"); // time,src,dest,state,elevInd, dt.
+            long time = System.currentTimeMillis();
+            String report_name = "out/Ex0_report_case_"+stage+"_"+time+"_ID_.log";
+            Simulator_A.report(report_name); // print the algorithm results in the given case, and save the log to a file.
+            //Simulator_A.report(); // if now file  - simple prints just the results.
+            Simulator_A.writeAllCalls("out/Ex0_Calls_case_"+stage+"_.csv"); // time,src,dest,state,elevInd, dt.
+        }
+
+
     }
 
     private static String codeOwner() {
